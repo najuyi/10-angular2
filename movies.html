@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="MoviesApp">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,25 +11,33 @@
   <link rel="stylesheet" href="css/main.css">
 
 	<!-- load our script -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.js"></script>
 	<script src="js/movies.js"></script>
 </head>
-<body class="container">
-
+<body class="container" ng-controller="MoviesCtrl">
+	
 	<h1>Movie Data Browser</h1>
 	<p class="lead">Movies released during 2015</p>
-
+	
   <form role="form" class="form-inline">
     <button type="button"><i class="fa fa-search" aria-label="Search"></i></button>
-    <input type="text" name="search" id="searchTerm" placeholder="Enter a search term...">
+    <input type="text" name="search" id="searchTerm" placeholder="Enter a search term..." ng-model='searchTerm'>
   </form>
-
+	<p>This message is: {{message}}</p>
 	<table class="table">
 		<tr>
-			<th>Title</th>
-			<th>Release Date</th>
+			<th ng-click="sortBy('title')">Title</th>
+			<th ng-click="sortBy('released')">Release Date</th>
 			<th>Genre</th>
-			<th>Earnings</th>
+			<th ng-click="sortBy('gross')">Earnings</th>
 			<th>Distributor</th>
+		</tr>
+		<tr ng-repeat="currentMovie in movies | orderBy: ordering | filter: searchTerm">
+			<td>{{currentMovie.title}}</td>
+			<td>{{currentMovie.released}}</td>
+			<td>{{currentMovie.genre}}</td>
+			<td>{{currentMovie.gross | currency : $ : 0}}</td>
+			<td>{{currentMovie.distributor}}</td>
 		</tr>
 	</table>
 
